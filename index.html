@@ -1,0 +1,757 @@
+# creatorshiftmedia-wesbitevc
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreatorShiftMedia — Turn Your Content Into Income</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --background: hsl(201, 100%, 13%);
+    --foreground: hsl(0, 0%, 100%);
+    --muted-foreground: hsl(240, 4%, 66%);
+    --primary: hsl(0, 0%, 100%);
+    --primary-foreground: hsl(0, 0%, 4%);
+    --secondary: hsl(0, 0%, 10%);
+    --muted: hsl(0, 0%, 10%);
+    --accent: hsl(0, 0%, 10%);
+    --border: hsl(0, 0%, 18%);
+    --input: hsl(0, 0%, 18%);
+    --font-display: 'Instrument Serif', serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+
+  /* VIDEO BACKGROUND */
+  .video-bg {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  /* PAGE WRAPPER */
+  .page {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* LIQUID GLASS */
+  .liquid-glass {
+    background: rgba(255, 255, 255, 0.01);
+    background-blend-mode: luminosity;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: none;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .liquid-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 20%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.15) 80%, rgba(255,255,255,0.45) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* NAV */
+  nav {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding: 24px 32px;
+  }
+
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.875rem;
+    letter-spacing: -0.025em;
+    color: var(--foreground);
+    text-decoration: none;
+    line-height: 1;
+  }
+
+  .nav-logo sup {
+    font-size: 0.75rem;
+    vertical-align: super;
+  }
+
+  .nav-links {
+    display: none;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-family: var(--font-body);
+  }
+
+  .nav-links a:hover, .nav-links a.active { color: var(--foreground); }
+
+  .nav-cta {
+    font-size: 0.875rem;
+    color: var(--foreground);
+    background: none;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 9999px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: transform 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .nav-cta:hover { transform: scale(1.03); }
+
+  @media (min-width: 768px) {
+    .nav-links { display: flex; }
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 10;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 90px 24px;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+    margin-bottom: 24px;
+    font-family: var(--font-body);
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.5rem, 8vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.0615em;
+    max-width: 1280px;
+    color: var(--foreground);
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--muted-foreground);
+  }
+
+  .hero-sub {
+    color: var(--muted-foreground);
+    font-size: clamp(0.95rem, 2vw, 1.125rem);
+    max-width: 42rem;
+    margin-top: 32px;
+    line-height: 1.7;
+    font-family: var(--font-body);
+    font-weight: 400;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-btn {
+    margin-top: 0;
+    padding: 20px 56px;
+    border-radius: 9999px;
+    font-size: 1rem;
+    color: var(--foreground);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 500;
+    transition: transform 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .hero-btn:hover { transform: scale(1.03); }
+
+  .hero-btn-secondary {
+    padding: 20px 56px;
+    border-radius: 9999px;
+    font-size: 1rem;
+    color: var(--muted-foreground);
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 400;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .hero-btn-secondary:hover {
+    color: var(--foreground);
+    border-color: rgba(255,255,255,0.4);
+  }
+
+  .hero-scroll {
+    margin-top: 80px;
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* SECTIONS */
+  .section {
+    position: relative;
+    z-index: 10;
+    padding: 120px 24px;
+  }
+
+  .section-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+    margin-bottom: 16px;
+    font-family: var(--font-body);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--foreground);
+    max-width: 700px;
+    margin-bottom: 24px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--muted-foreground);
+  }
+
+  .section-sub {
+    color: var(--muted-foreground);
+    font-size: 1rem;
+    max-width: 38rem;
+    line-height: 1.7;
+    margin-bottom: 64px;
+  }
+
+  /* HOW IT WORKS */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    margin-top: 64px;
+  }
+
+  @media (min-width: 768px) {
+    .steps-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: rgba(255,255,255,0.08);
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .step-title {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 400;
+    color: var(--foreground);
+    margin-bottom: 12px;
+  }
+
+  .step-body {
+    color: var(--muted-foreground);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  /* THE DEAL */
+  .deal-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 64px;
+  }
+
+  @media (min-width: 640px) {
+    .deal-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .deal-card {
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+  }
+
+  .deal-icon {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  .deal-card-title {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: var(--foreground);
+    margin-bottom: 8px;
+  }
+
+  .deal-card-body {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  .deal-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--foreground);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    letter-spacing: 0.05em;
+  }
+
+  /* NICHES */
+  .niches-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 64px;
+  }
+
+  @media (min-width: 768px) {
+    .niches-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .niche-card {
+    padding: 28px 24px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+  }
+
+  .niche-icon {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+
+  .niche-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--foreground);
+    margin-bottom: 6px;
+  }
+
+  .niche-body {
+    color: var(--muted-foreground);
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+
+  /* PRODUCTS */
+  .products-list {
+    margin-top: 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .product-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 32px;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .product-item:last-child { border-bottom: none; }
+
+  .product-num {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: rgba(255,255,255,0.15);
+    min-width: 40px;
+    line-height: 1;
+    padding-top: 2px;
+  }
+
+  .product-title {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: var(--foreground);
+    margin-bottom: 6px;
+  }
+
+  .product-body {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    position: relative;
+    z-index: 10;
+    padding: 120px 24px;
+    text-align: center;
+  }
+
+  .contact-inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .contact-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    color: var(--foreground);
+    margin-bottom: 24px;
+  }
+
+  .contact-title em {
+    font-style: italic;
+    color: var(--muted-foreground);
+  }
+
+  .contact-sub {
+    color: var(--muted-foreground);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+
+  .contact-btn {
+    display: inline-block;
+    padding: 20px 56px;
+    border-radius: 9999px;
+    font-size: 1rem;
+    color: var(--foreground);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 500;
+    transition: transform 0.2s;
+    text-decoration: none;
+  }
+
+  .contact-btn:hover { transform: scale(1.03); }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 10;
+    padding: 32px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--foreground);
+    text-decoration: none;
+  }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--foreground); }
+
+  /* ANIMATIONS */
+  @keyframes fade-rise {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-rise { animation: fade-rise 0.8s ease-out both; }
+  .animate-fade-rise-delay { animation: fade-rise 0.8s ease-out 0.2s both; }
+  .animate-fade-rise-delay-2 { animation: fade-rise 0.8s ease-out 0.4s both; }
+
+  /* SCROLL ANIMATIONS */
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+  .scroll-reveal.delay-1 { transition-delay: 0.1s; }
+  .scroll-reveal.delay-2 { transition-delay: 0.2s; }
+  .scroll-reveal.delay-3 { transition-delay: 0.3s; }
+  .scroll-reveal.delay-4 { transition-delay: 0.4s; }
+  .scroll-reveal.delay-5 { transition-delay: 0.5s; }
+  .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-rise,
+    .animate-fade-rise-delay,
+    .animate-fade-rise-delay-2,
+    .scroll-reveal {
+      animation: none;
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- VIDEO BACKGROUND -->
+<video class="video-bg" autoplay loop muted playsinline
+  src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4">
+</video>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">CreatorShiftMedia<sup>®</sup></a>
+      <ul class="nav-links">
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#deal">The Deal</a></li>
+        <li><a href="#niches">Niches</a></li>
+        <li><a href="#contact">Reach Us</a></li>
+      </ul>
+      <a href="#contact" class="nav-cta liquid-glass">Begin Journey</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow animate-fade-rise">For Instagram Creators</p>
+    <h1 class="animate-fade-rise">
+      Where <em>creators</em> rise<br>
+      through <em>the content.</em>
+    </h1>
+    <p class="hero-sub animate-fade-rise-delay">
+      We build digital products around your content — at zero cost to you.
+      You keep 70% of every sale. We handle everything.
+      For bold creators ready to turn their knowledge into real income.
+    </p>
+    <div class="hero-btns animate-fade-rise-delay-2">
+      <a href="#contact" class="hero-btn liquid-glass">Get Your Free Product</a>
+      <a href="#how" class="hero-btn-secondary">See How It Works</a>
+    </div>
+    <p class="hero-scroll animate-fade-rise-delay-2">Scroll</p>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="section-inner">
+      <p class="section-eyebrow scroll-reveal">The Process</p>
+      <h2 class="section-title scroll-reveal delay-1">How It Works</h2>
+      <p class="section-sub scroll-reveal delay-2">Three steps from your first reply to your first sale.</p>
+      <div class="steps-grid">
+        <div class="scroll-reveal delay-2">
+          <div class="step-num">01</div>
+          <h3 class="step-title">We Find Your Angle</h3>
+          <p class="step-body">We study your content, your audience, and what they are already asking for. Then we identify the exact digital product your followers would pay for.</p>
+        </div>
+        <div class="scroll-reveal delay-3">
+          <div class="step-num">02</div>
+          <h3 class="step-title">We Build Everything</h3>
+          <p class="step-body">Guides, templates, trackers, ebooks — we build the entire product from scratch. Design, copy, delivery system. You do not lift a finger.</p>
+        </div>
+        <div class="scroll-reveal delay-4">
+          <div class="step-num">03</div>
+          <h3 class="step-title">You Share, We Split</h3>
+          <p class="step-body">You promote it to your audience the way you already create content. Every sale — you keep 70%, we take 30%. Simple, transparent, forever.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE DEAL -->
+  <section class="section" id="deal">
+    <div class="section-inner">
+      <p class="section-eyebrow">The Offer</p>
+      <h2 class="section-title">Zero Risk. <em>Real Revenue.</em></h2>
+      <p class="section-sub">Most creators leave money on the table because building products feels complicated and expensive. We remove every barrier between your audience and their first purchase.</p>
+      <div class="deal-grid">
+        <div class="deal-card">
+          <div class="deal-icon">🚫</div>
+          <h4 class="deal-card-title">No Upfront Cost</h4>
+          <p class="deal-card-body">You pay absolutely nothing. We invest our time and resources first.</p>
+        </div>
+        <div class="deal-card">
+          <div class="deal-icon">⚡</div>
+          <h4 class="deal-card-title">Fast Turnaround</h4>
+          <p class="deal-card-body">Your product is built and ready to sell within days, not months.</p>
+        </div>
+        <div class="deal-card">
+          <div class="deal-icon">💰</div>
+          <h4 class="deal-card-title">You Keep 70%</h4>
+          <p class="deal-card-body">Every single sale, 70% goes directly to you. We only earn when you earn.</p>
+        </div>
+        <div class="deal-card">
+          <div class="deal-icon">🎯</div>
+          <h4 class="deal-card-title">Built For Your Audience</h4>
+          <p class="deal-card-body">Every product is custom-built around your specific niche and content style.</p>
+        </div>
+      </div>
+      <div class="deal-stats">
+        <div>
+          <div class="stat-num">70%</div>
+          <div class="stat-label">Revenue Goes To You</div>
+        </div>
+        <div>
+          <div class="stat-num">₹0</div>
+          <div class="stat-label">Upfront Cost To Creator</div>
+        </div>
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Done For You</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NICHES -->
+  <section class="section" id="niches">
+    <div class="section-inner">
+      <p class="section-eyebrow">Who We Work With</p>
+      <h2 class="section-title">Best Fit Niches</h2>
+      <p class="section-sub">We work with knowledge-based creators whose audience is actively looking for solutions.</p>
+      <div class="niches-grid">
+        <div class="niche-card">
+          <div class="niche-icon">💸</div>
+          <h4 class="niche-title">Personal Finance</h4>
+          <p class="niche-body">Budgeting, saving, debt payoff, investing basics. High buyer intent audiences.</p>
+        </div>
+        <div class="niche-card">
+          <div class="niche-icon">📚</div>
+          <h4 class="niche-title">Study & Exam Prep</h4>
+          <p class="niche-body">UPSC, JEE, CAT, IELTS and beyond. Students pay for structured guidance.</p>
+        </div>
+        <div class="niche-card">
+          <div class="niche-icon">💼</div>
+          <h4 class="niche-title">Career & Jobs</h4>
+          <p class="niche-body">Resume tips, interview prep, job hunting strategies. Urgency-driven buyers.</p>
+        </div>
+        <div class="niche-card">
+          <div class="niche-icon">🤖</div>
+          <h4 class="niche-title">AI Tools & Productivity</h4>
+          <p class="niche-body">ChatGPT tips, AI workflows, automation hacks. The hottest niche right now.</p>
+        </div>
+        <div class="niche-card">
+          <div class="niche-icon">🌙</div>
+          <h4 class="niche-title">Astrology & Spiritual</h4>
+          <p class="niche-body">Vedic astrology, daily guidance, manifestation. Deeply loyal paying communities.</p>
+        </div>
+        <a href="https://harshcode.gumroad.com/l/aqmoek" target="_blank" rel="noopener" class="niche-card" style="text-decoration:none;display:block;cursor:pointer;">
+          <div class="niche-icon">🧠</div>
+          <h4 class="niche-title">Productivity & Systems</h4>
+          <p class="niche-body">Notion templates, habit trackers, second brain systems. Instant digital buys.</p>
+          <p style="margin-top:12px;font-size:0.75rem;color:rgba(
